@@ -1,13 +1,20 @@
 import { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
+import { UserAgentContextProvider } from '@/contexts/userAgent/userAgentProvider'
 import { THEME } from '@/constants/style'
 
-function MyApp({ Component, pageProps }: AppProps) {
+type Props = {
+  uaString: string
+} & AppProps
+
+function App({ Component, pageProps, uaString }: Props) {
   return (
     <ThemeProvider theme={THEME}>
-      <Component {...pageProps} />
+      <UserAgentContextProvider uaString={uaString}>
+        <Component {...pageProps} />
+      </UserAgentContextProvider>
     </ThemeProvider>
   )
 }
 
-export default MyApp
+export default App

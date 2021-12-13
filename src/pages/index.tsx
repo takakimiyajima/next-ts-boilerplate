@@ -1,11 +1,16 @@
 import Head from 'next/head'
 import styled from 'styled-components'
+import { useUserAgent } from '@/contexts/userAgent/useUserAgent'
+import { PcScreen } from '@/components/pc/screen'
+import { SpScreen } from '@/components/sp/screen'
 
 type Props = {
   className?: string
 }
 
 const Component = ({ className }: Props): JSX.Element => {
+  const userDevice = useUserAgent()
+
   return (
     <div>
       <Head>
@@ -15,9 +20,15 @@ const Component = ({ className }: Props): JSX.Element => {
       </Head>
 
       <main className={className}>
-        <h1 className="title">
-          Welcome to Next.js!
-        </h1>
+        {userDevice.isMobile ? (
+          <div suppressHydrationWarning>
+            <SpScreen />
+          </div>
+        ) : (
+          <div suppressHydrationWarning>
+            <PcScreen />
+          </div>
+        )}
       </main>
 
       <footer>
@@ -27,11 +38,6 @@ const Component = ({ className }: Props): JSX.Element => {
 }
 
 const StyledComponent = styled(Component)`
-  padding: 150px;
-
-  > .title {
-    font-size: 50px;
-  }
 `
 
 export default function Home() {
